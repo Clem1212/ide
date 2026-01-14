@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syntaxxx - Code on your phone</title>
+        <link rel="icon" type="image/x-icon" href="favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0b0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(10, 11, 15, 0.9);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #a1a1aa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero {
+            margin-top: 100px;
+            padding: 80px 60px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            color: #a78bfa;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #a1a1aa;
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .stat h3 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .stat p {
+            color: #71717a;
+        }
+
+        .hero-visual {
+            flex: 1;
+            position: relative;
+        }
+
+        .code-window {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #eab308; }
+        .dot-green { background: #22c55e; }
+
+        .window-title {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .code-line {
+            display: flex;
+            gap: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .line-number {
+            color: #475569;
+        }
+
+        .keyword { color: #c084fc; }
+        .variable { color: #60a5fa; }
+        .string { color: #4ade80; }
+        .function { color: #fbbf24; }
+        .number { color: #fb923c; }
+
+        .auto-save-badge {
+            position: absolute;
+            top: 60px;
+            right: 30px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .green-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .touch-badge {
+            position: absolute;
+            bottom: 100px;
+            left: -50px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal {
+            background: #0f172a;
+            border-radius: 0 0 16px 16px;
+            padding: 15px 20px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+
+        .terminal-header {
+            color: #22c55e;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .terminal-content {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .section {
+            padding: 100px 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            color: #818cf8;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            font-size: 20px;
+            color: #a1a1aa;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .icon-purple { background: rgba(139, 92, 246, 0.1); color: #a78bfa; }
+        .icon-cyan { background: rgba(6, 182, 212, 0.1); color: #22d3ee; }
+        .icon-yellow { background: rgba(234, 179, 8, 0.1); color: #fbbf24; }
+        .icon-pink { background: rgba(236, 72, 153, 0.1); color: #f472b6; }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #a1a1aa;
+        }
+
+        .why-section {
+            padding: 100px 60px;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .why-content {
+            flex: 1;
+        }
+
+        .check-list {
+            margin-top: 40px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+        }
+
+        .btn-secondary {
+            background: rgba(6, 182, 212, 0.2);
+            color: #22d3ee;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .quote-icon {
+            font-size: 48px;
+            color: #6366f1;
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            color: #d1d5db;
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+        }
+
+        .author-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            font-size: 14px;
+            color: #71717a;
+        }
+
+        .cta-section {
+            padding: 100px 60px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .cta-content {
+            flex: 1;
+        }
+
+        .cta-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .cta-content h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-features {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .cta-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #10b981;
+        }
+
+        .form-container {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a78bfa;
+            font-size: 20px;
+        }
+
+        .form-header h3 {
+            font-size: 22px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #71717a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.4);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .form-note {
+            text-align: center;
+            color: #71717a;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">&lt;/&gt;</div>
+            <span class="logo-text">Syntaxxx</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="https://syntaxxxx.onrender.com/">Docs</a>
+            <a href="https://syntaxxxx.onrender.com/" class="btn-primary">Demo →</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">⚡ Code anywhere, anytime</div>
+            <h1>Code on<br><span class="gradient-text">your phone</span></h1>
+            <p>Syntaxxx is a powerful mobile IDE built for developers who code on the go. Write, test, and deploy—all from your pocket.</p>
+            <a href="https://syntaxxxx.onrender.com/" class="btn-primary">Launch Syntaxxx Demo →</a>
+            
+            <div class="stats">
+                <div class="stat">
+                    <h3>50+</h3>
+                    <p>Languages</p>
+                </div>
+         <!--        <div class="stat">
+                    <h3>10K+</h3>
+                    <p>Developers</p>
+                </div>
+                <div class="stat">
+                    <h3>4.9</h3>
+                    <p>Rating</p>
+                </div>-->
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="auto-save-badge">
+                <span class="green-dot"></span>
+                Auto-save enabled
+            </div>
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="window-title">&lt;/&gt; main.js</div>
+                </div>
+                <div>
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span><span class="keyword">const</span> <span class="variable">app</span> = <span class="function">require</span>(<span class="string">'ex</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span><span class="variable">app</span>.<span class="function">get</span>(<span class="string">'/'</span>, <span class="variable">req</span>, <span class="variable">res</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span>  <span class="variable">res</span>.<span class="function">send</span>(<span class="string">'Hello!'</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span>});</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span><span class="variable">app</span>.<span class="function">listen</span>(<span class="number">3000</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">8</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="terminal">
+                    <div class="terminal-header">● Terminal</div>
+                    <div class="terminal-content">$ Server running on port 3000 ✓</div>
+                </div>
+            </div>
+            <div class="touch-badge">📱 Touch-optimized</div>
+        </div>
+    </section>
+
+    <section class="section" id="features">
+        <div class="section-header">
+            <div class="section-badge">Features</div>
+            <h2>Everything you need to<br><span class="gradient-text">code on mobile</span></h2>
+            <p class="section-description">A complete development environment in your pocket. No compromises, no limitations.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">&lt;/&gt;</div>
+                <h3>50+ Languages</h3>
+                <p>JavaScript, Python, Java, C++, Go, Rust, and many more. Full syntax highlighting included.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon icon-cyan">📱</div>
+                <h3>Touch Optimized</h3>
+                <p>Intuitive gestures, smart keyboard shortcuts, and ergonomic UI designed for mobile screens.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon icon-yellow">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Instant code compilation and real-time preview. No lag, just smooth coding experience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon icon-pink">🎨</div>
+                <h3>Beautiful Themes</h3>
+                <p>20+ stunning editor themes including Dracula, One Dark, Nord, and custom options.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-section">
+        <div class="why-visual">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="window-title">syntaxxx.onrender.com</div>
+                </div>
+                <div style="padding: 20px;">
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span><span class="keyword">import</span> <span class="variable">React</span> <span class="keyword">from</span> <span class="string">'react'</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span><span class="keyword">export default</span> <span class="keyword">function</span> <span class="function">App</span>() {</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span>  <span class="keyword">return</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span>    &lt;<span class="variable">div</span>&gt;</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span>      Hello World!</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span>    &lt;/<span class="variable">div</span>&gt;</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">8</span>
+                        <span>  );</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">9</span>
+                        <span>}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="why-content">
+            <div class="section-badge">Why Syntaxxx?</div>
+            <h2>Your full-powered IDE,<br><span class="gradient-text">now in your pocket</span></h2>
+            <p style="font-size: 18px; color: #a1a1aa; margin-top: 20px;">Stop waiting until you're at your desk. With Syntaxxx, you can ship code from anywhere. It's not just an editor—it's a complete development environment.</p>
+            
+            <div class="check-list">
+                <div class="check-item">
+                    <div class="check-icon">✓</div>
+                    <p>Code anywhere—commute, cafe, or couch</p>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">✓</div>
+                    <p>Real-time collaboration with your team</p>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">✓</div>
+                    <p>Instant deployment to cloud platforms</p>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">✓</div>
+                    <p>Works offline—sync when connected</p>
+                </div>
+            </div>
+            
+            <a href="https://syntaxxxx.onrender.com/" class="btn-secondary">Launch Demo</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <div class="section-badge">Testimonials</div>
+            <h2>Loved by developers<br><span style="color: #71717a;">around the world</span></h2>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"Syntaxxx changed how I work. I can fix bugs during my commute and push updates before I even reach the office. It's incredibly powerful."</p>
+                <div class="stars">★★★★★</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"></div>
+                    <div class="author-info">
+                        <h4>Alex Chen</h4>
+                        <p>Full Stack Developer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"Finally, a mobile IDE that doesn't feel like a compromise. The touch controls are intuitive, and the syntax highlighting is beautiful."</p>
+                <div class="stars">★★★★★</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"></div>
+                    <div class="author-info">
+                        <h4>Sarah Mitchell</h4>
+                        <p>Mobile App Developer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"I built an entire game while waiting at the airport. Syntaxxx has legitimately transformed my mobile workflow."</p>
+                <div class="stars">★★★★★</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"></div>
+                    <div class="author-info">
+                        <h4>James Rodriguez</h4>
+                        <p>Indie Game Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <div style="padding-left: 300px; padding-right: 300px;">
+            <div class="form-header">
+                <div class="form-icon">✉</div>
+                <div>
+                    <h3>Get Early Access</h3>
+                    <p>Join the waitlist</p>
+                </div>
+            </div>
+            <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST">
+                <!-- Replace YOUR_ACCESS_KEY with your actual Web3Forms access key -->
+                <input type="hidden" name="access_key" value="551819cf-b63b-449e-9435-4769b5e9e464">
+                <input type="hidden" name="subject" value="New Syntaxxx Waitlist Signup!">
+                <input type="hidden" name="from_name" value="Syntaxxx Waitlist">
+                
+                <div class="form-group">
+                    <input type="text" class="form-input" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input" name="message" placeholder="Tell us about your use case (optional)"></textarea>
+                </div>
+                <button type="submit" class="form-submit">
+                    ✈ Join Waitlist
+                </button>
+                <p class="form-note">We'll never share your information</p>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('.form-submit');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '⏳ Joining...';
+            submitButton.disabled = true;
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Thank you for joining the waitlist! We\'ll be in touch soon. ✨');
+                    this.reset();
+                } else {
+                    alert('Oops! Something went wrong. Please try again.');
+                }
+            } catch (error) {
+                alert('Oops! Something went wrong. Please try again.');
+            } finally {
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
