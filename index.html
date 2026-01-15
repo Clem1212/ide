@@ -100,7 +100,7 @@
             gap: 8px;
             padding: 8px 16px;
             background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            border: 1px  solid rgba(139, 92, 246, 0.3);
             border-radius: 20px;
             color: #a78bfa;
             margin-bottom: 30px;
@@ -564,7 +564,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="badge">⚡ Code anywhere, anytime</div>
-            <h1>Code on<br><span class="gradient-text">your phone</span></h1>
+            <h1>Code on<br><span >your phone</span></h1>
             <p>Syntaxxx is a powerful mobile IDE built for developers who code on the go. Write, test, and deploy—all from your pocket.</p>
             <a href="https://syntaxxxx.onrender.com/" class="btn-primary">Launch Syntaxxx Demo →</a>
             
@@ -640,7 +640,35 @@
             <div class="touch-badge">📱 Touch-optimized</div>
         </div>
     </section>
-
+<div style="padding-left: 300px; padding-right: 300px;">
+            <div class="form-header">
+                <div class="form-icon">✉</div>
+                <div>
+                    <h3>Get Early Access</h3>
+                    <p>Join the waitlist</p>
+                </div>
+            </div>
+            <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST">
+                <!-- Replace YOUR_ACCESS_KEY with your actual Web3Forms access key -->
+                <input type="hidden" name="access_key" value="551819cf-b63b-449e-9435-4769b5e9e464">
+                <input type="hidden" name="subject" value="New Syntaxxx Waitlist Signup!">
+                <input type="hidden" name="from_name" value="Syntaxxx Waitlist">
+                
+                <div class="form-group">
+                    <input type="text" class="form-input" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input" name="message" placeholder="Tell us about your use case (optional)"></textarea>
+                </div>
+                <button type="submit" class="form-submit">
+                    ✈ Join Waitlist
+                </button>
+                <p class="form-note">We'll never share your information</p>
+            </form>
+        </div>
     <section class="section" id="features">
         <div class="section-header">
             <div class="section-badge">Features</div>
@@ -797,36 +825,8 @@
             </div>
         </div>
     </section>
-  <div style="padding-left: 300px; padding-right: 300px;">
-            <div class="form-header">
-                <div class="form-icon">✉</div>
-                <div>
-                    <h3>Get Early Access</h3>
-                    <p>Join the waitlist</p>
-                </div>
-            </div>
-            <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST">
-                <!-- Replace YOUR_ACCESS_KEY with your actual Web3Forms access key -->
-                <input type="hidden" name="access_key" value="551819cf-b63b-449e-9435-4769b5e9e464">
-                <input type="hidden" name="subject" value="New Syntaxxx Waitlist Signup!">
-                <input type="hidden" name="from_name" value="Syntaxxx Waitlist">
-                
-                <div class="form-group">
-                    <input type="text" class="form-input" name="name" placeholder="Your name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-input" name="email" placeholder="Your email" required>
-                </div>
-                <div class="form-group">
-                    <textarea class="form-input" name="message" placeholder="Tell us about your use case (optional)"></textarea>
-                </div>
-                <button type="submit" class="form-submit">
-                    ✈ Join Waitlist
-                </button>
-                <p class="form-note">We'll never share your information</p>
-            </form>
-        </div>
-    </section>
+  
+    
 
     <script>
         document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
